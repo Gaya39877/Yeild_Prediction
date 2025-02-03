@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Crop Yield Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url('https://d17ocfn2f5o4rl.cloudfront.net/wp-content/uploads/2023/07/BP-AI-in-Agriculture-The-Future-of-Farming_body-im-3.jpg') no-repeat center center/cover;
+            font-family: 'Poppins', sans-serif;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+        }
+        .card {
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+        .form-section {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .form-group {
+            flex: 0 0 48%;
+            margin-bottom: 15px;
+        }
+        .form-control, .form-select {
+            border-radius: 10px;
+            border: none;
+            padding: 12px;
+        }
+        .btn-custom {
+            background: #ffcc00;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 18px;
+            width: 100%;
+            color: #333;
+        }
+        .btn-custom:hover {
+            background: #ff9900;
+        }
+        .prediction-card {
+            margin-top: 20px;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            color: #fff;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        @media (max-width: 600px) {
+            .form-group {
+                flex: 0 0 100%;
+            }
+        }
+
+        h2.title {
+            font-family: 'Arial', sans-serif;
+            font-size: 35px;
+            font-weight: bold;
+            color: #333;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h2 class="title mb-4">Crop Yield Prediction</h2>
+            <form action="/predict" method="post">
+                <div class="form-section">
+                    <div class="form-group">
+                        <label class="form-label">Year</label>
+                        <input type="number" class="form-control" name="Year" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Average Rainfall (mm/year)</label>
+                        <input type="number" class="form-control" name="average_rain_fall_mm_per_year" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Pesticides Used (tonnes)</label>
+                        <input type="number" class="form-control" name="pesticides_tonnes" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Average Temperature (°C)</label>
+                        <input type="number" class="form-control" name="avg_temp" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="Area" class="form-label">Select Area</label>
+                        <select class="form-select" name="Area" required>
+                            {% for country in areas %}
+                                <option value="{{ country }}">{{ country }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Select Crop</label>
+                        <select class="form-select" name="Item" required>
+                            <option value="Maize">Maize</option>
+                            <option value="Potatoes">Potatoes</option>
+                            <option value="Rice, paddy">Rice, paddy</option>
+                            <option value="Sorghum">Sorghum</option>
+                            <option value="Soybeans">Soybeans</option>
+                            <option value="Wheat">Wheat</option>
+                            <option value="Cassava">Cassava</option>
+                            <option value="Sweet potatoes">Sweet potatoes</option>
+                            <option value="Plantains and others">Plantains and others</option>
+                            <option value="Yams">Yams</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-custom">Predict Yield</button>
+            </form>
+            {% if prediction %}
+                <div class="prediction-card">
+                    <h3>Predicted Yield: {{ prediction }} tonnes</h3>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
